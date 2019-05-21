@@ -1,6 +1,6 @@
 # VersionUpdate
 提供一个应用版本更新功能的库！[![](https://jitpack.io/v/FengChenSunshine/VersionUpdate.svg)](https://jitpack.io/#FengChenSunshine/VersionUpdate)
-[![](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/FengChenSunshine/LibraryModel/blob/master/LICENSE)
+[![](https://img.shields.io/badge/license-Apache2.0-brightgreen.svg)](https://github.com/FengChenSunshine/LibraryModel/blob/master/LICENSE)
 
 
 
