@@ -9,7 +9,7 @@
     <application>
         <provider
             android:name="com.duanlu.upload.VersionUpdateFileProvider"
-            android:authorities="version_update"
+            android:authorities="${applicationId}.version_update"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

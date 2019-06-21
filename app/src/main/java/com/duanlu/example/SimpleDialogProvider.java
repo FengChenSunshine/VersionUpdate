@@ -68,7 +68,6 @@ public class SimpleDialogProvider implements DialogProvider {
         protected DownloadDialog(Context context) {
             super(context);
 
-
             setTitle("下载进度");
 
             LinearLayout container = new LinearLayout(context);

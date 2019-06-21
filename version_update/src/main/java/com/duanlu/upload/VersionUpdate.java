@@ -25,7 +25,7 @@ import java.lang.ref.WeakReference;
 public class VersionUpdate implements CheckCallback, NewVersionActionCallback, OnDownloadStatusListener {
 
     private static final String TAG = "VersionUpdate";
-    private static final String AUTHORITY = "version_update";
+    private static final String AUTHORITY = ".version_update";
     private boolean isDebug;
     private Context mContext;
     private Checker mChecker;
@@ -233,7 +233,7 @@ public class VersionUpdate implements CheckCallback, NewVersionActionCallback, O
                         versionUpdate.onError(new FileNotFoundException("下载APK文件未找到"));
                         return;
                     }
-                    Intent intent = VersionUpdateUtils.getInstallAppIntent(context, apkFile, AUTHORITY);
+                    Intent intent = VersionUpdateUtils.getInstallAppIntent(context, apkFile, context.getPackageName() + AUTHORITY);
                     result = versionUpdate.mDownloadStatusListener.onComplete(intent);
                     if (!result) {
                         if (versionUpdate.isDebug) {
