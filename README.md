@@ -200,7 +200,7 @@ Step 1. Add the JitPack repository to your build file,Add it in your root build.
 Step 2. Add the dependency
 
     dependencies {
-	          implementation 'com.github.FengChenSunshine:VersionUpdate:v1.0.0'
+	          implementation 'com.github.FengChenSunshine:VersionUpdate:v1.0.2'
 	  }
 	  
 ## 8.版本说明
