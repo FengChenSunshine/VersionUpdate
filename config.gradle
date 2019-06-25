@@ -10,8 +10,8 @@ ext {
             , versionName_dev    : "dev0.0.1"
             , versionCode_beta   : 1
             , versionName_beta   : "beta0.0.1"
-            , versionCode_release: 3
-            , versionName_release: "v1.0.2"
+            , versionCode_release: 4
+            , versionName_release: "v1.0.3"
     ]
     library = [
             junit              : "junit:junit:4.12",

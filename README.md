@@ -74,7 +74,6 @@
                         callback.update();
                         break;
                 }
-
             }
         };
         return new AlertDialog.Builder(context)
