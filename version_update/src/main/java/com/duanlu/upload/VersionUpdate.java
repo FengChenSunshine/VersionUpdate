@@ -119,7 +119,7 @@ public class VersionUpdate implements CheckCallback, NewVersionActionCallback, O
 
     private void ensureNewVersionDialog() {
         if (null == mNewVersionDialog && null != mDialogProvider) {
-            mNewVersionDialog = mDialogProvider.createNewVersionDialog(mContext, this);
+            mNewVersionDialog = mDialogProvider.createNewVersionDialog(mContext, mPostcard, this);
         }
         if (null == mNewVersionDialog) {
             throw new RuntimeException("NewVersionDialog is Null!");
@@ -128,7 +128,7 @@ public class VersionUpdate implements CheckCallback, NewVersionActionCallback, O
 
     private void ensureDownloadDialog() {
         if (null == mDownloadDialog && null != mDialogProvider) {
-            mDownloadDialog = mDialogProvider.createDownloadDialog(mContext);
+            mDownloadDialog = mDialogProvider.createDownloadDialog(mContext, mPostcard);
         }
 
         if (!(mDownloadDialog instanceof OnDownloadStatusListener)) {

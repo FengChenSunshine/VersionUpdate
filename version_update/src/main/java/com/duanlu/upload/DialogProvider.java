@@ -2,6 +2,7 @@ package com.duanlu.upload;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 /********************************
  * @name DialogProvider
@@ -16,10 +17,10 @@ public interface DialogProvider {
     /**
      * 新版本提醒Dialog，必须回调NewVersionActionCallback相关方法.
      */
-    Dialog createNewVersionDialog(Context context, NewVersionActionCallback callback);
+    Dialog createNewVersionDialog(@NonNull Context context, @NonNull Postcard postcard, @NonNull NewVersionActionCallback callback);
 
     /**
      * 下载进度Dialog,必须实现OnDownloadStatusListener方法.
      */
-    Dialog createDownloadDialog(Context context);
+    Dialog createDownloadDialog(@NonNull Context context, @NonNull Postcard postcard);
 }

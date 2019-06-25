@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <application>
+        <!--API24 Android7.0以上需要FileProvider-->
         <provider
             android:name="com.duanlu.upload.VersionUpdateFileProvider"
             android:authorities="${applicationId}.version_update"
