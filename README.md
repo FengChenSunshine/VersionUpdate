@@ -41,7 +41,7 @@
                 .downloadStrategy(new OkGoDownloadStrategy())
                 .build()
                 .check();
-    }
+    	}
 ### Checker举例.
 	public class VersionChecker implements Checker {
     	     @Override
@@ -49,6 +49,9 @@
         	 String downloadUrl = "http://gdown.baidu.com/data/wisegame/f529780563bd7983/yingyongbao_7362130.apk";
         	 Postcard postcard = new Postcard.Builder(downloadUrl)
                 	  .setForce(true)
+			  .setVersionDesc("有新版本啦~，是否更新?")
+                	  .setVersionCode("1")
+               		  .setVersionName("v1.0.3")
                 	  .setSaveConfig(Environment.getExternalStorageDirectory().getAbsolutePath() + "/AAA/", "test.apk")
                 	  .build();
         	 callback.callback(postcard);
@@ -56,37 +59,42 @@
 }
 
 ### DialogProvider举例.
-	public class SimpleDialogProvider implements DialogProvider {
+    public class SimpleDialogProvider implements DialogProvider {
 
-    @Override
-    public Dialog createNewVersionDialog(Context context, final NewVersionActionCallback callback) {
-        DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
-                    case DialogInterface.BUTTON_NEGATIVE:
-                        callback.cancel();
-                        break;
-                    case DialogInterface.BUTTON_NEUTRAL:
-                        callback.late();
-                        break;
-                    case DialogInterface.BUTTON_POSITIVE:
-                        callback.update();
-                        break;
+    	@Override
+    	public Dialog createNewVersionDialog(@NonNull Context context, @NonNull Postcard postcard, final @NonNull NewVersionActionCallback callback) {
+            DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+            	@Override
+            	public void onClick(DialogInterface dialog, int which) {
+                    switch (which) {
+                    	case DialogInterface.BUTTON_NEGATIVE:
+                             callback.cancel();
+                             break;
+                    	case DialogInterface.BUTTON_NEUTRAL:
+                             callback.late();
+                             break;
+                    	case DialogInterface.BUTTON_POSITIVE:
+                             callback.update();
+                             break;
                 }
             }
         };
-        return new AlertDialog.Builder(context)
+	
+        AlertDialog.Builder builder = new AlertDialog.Builder(context)
                 .setTitle("版本更新")
-                .setMessage("有新版本啦~，是否更新?")
-                .setNegativeButton("取消", listener)
-                .setNeutralButton("稍后提醒", listener)
+                .setMessage(postcard.versionDesc)
                 .setPositiveButton("更新", listener)
-                .create();
+                .setCancelable(false);
+        if (!postcard.isForce) {
+            builder.setNegativeButton("取消", listener)
+                    .setNeutralButton("稍后提醒", listener);
+        }
+
+        return builder.create();
     }
 
     @Override
-    public Dialog createDownloadDialog(Context context) {
+    public Dialog createDownloadDialog(@NonNull Context context, @NonNull Postcard postcard) {
         return new DownloadDialog(context);
     }
 
@@ -99,20 +107,15 @@
 
             setTitle("下载进度");
 
-            LinearLayout container = new LinearLayout(context);
-            container.setOrientation(LinearLayout.VERTICAL);
+            setCancelable(false);
 
-            progressBar = new ProgressBar(context);
-            progressBar.setProgressDrawable(context.getResources().getDrawable(android.R.drawable.progress_horizontal));
-            progressBar.setMinimumHeight(3);
-            progressBar.setMax(100);
-            container.addView(progressBar);
+            setTitle("下载进度");
 
-            tvPercent = new TextView(context);
-            tvPercent.setText("0%");
-            container.addView(tvPercent);
-
+            View container = LayoutInflater.from(context).inflate(R.layout.dialog_version_update_download, null);
             setView(container);
+
+            progressBar = container.findViewById(R.id.progress_bar);
+            tvPercent = container.findViewById(R.id.tv_percent);
         }
 
         @Override
@@ -122,16 +125,16 @@
             } else {
                 progressBar.setProgress(0);
             }
-            tvPercent.setText("0%");
+            tvPercent.setText("0.0%");
         }
 
         @Override
         public void onProgressChanged(long current, long total) {
             double percent = ((double) current / (double) total);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                progressBar.setProgress((int) percent, true);
+                progressBar.setProgress((int) (percent * 100), true);
             } else {
-                progressBar.setProgress((int) percent);
+                progressBar.setProgress((int) (percent * 100));
             }
             tvPercent.setText(String.format(Locale.getDefault(), "%.1f", percent * 100) + "%");
         }
@@ -204,6 +207,10 @@ Step 2. Add the dependency
 	  
 ## 8.版本说明
  
+### v1.0.3 
+   1.Postcard对象里增加版本号、版本名和版本描述信息。
+   2.更新Demo。
+   
 ### v1.0.2 
    1.创建Dialog接口参数里增加Postcard对象，这样方便在创建Dialog时根据不同条件创建不同内容的Dialog。
    
