@@ -200,5 +200,13 @@ Step 1. Add the JitPack repository to your build file,Add it in your root build.
 Step 2. Add the dependency
 
     dependencies {
-	          implementation 'com.github.FengChenSunshine:VersionUpdate:v1.0.0'
+	          implementation 'com.github.FengChenSunshine:VersionUpdate:v1.0.2'
 	  }
+	  
+## 8.版本说明
+ 
+### v1.0.2 
+   1.创建Dialog接口参数里增加Postcard对象，这样方便在创建Dialog时根据不同条件创建不同内容的Dialog。
+   
+### v1.0.1 
+   1.修改使用该库的2个APP不能同时安装的问题。
