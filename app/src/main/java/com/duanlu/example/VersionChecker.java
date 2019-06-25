@@ -21,6 +21,9 @@ public class VersionChecker implements Checker {
         String downloadUrl = "http://gdown.baidu.com/data/wisegame/f529780563bd7983/yingyongbao_7362130.apk";
         Postcard postcard = new Postcard.Builder(downloadUrl)
                 .setForce(true)
+                .setVersionDesc("有新版本啦~，是否更新?")
+                .setVersionCode("1")
+                .setVersionName("v1.0.3")
                 .setSaveConfig(Environment.getExternalStorageDirectory().getAbsolutePath() + "/AAA/", "test.apk")
                 .build();
         callback.callback(postcard);

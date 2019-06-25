@@ -6,6 +6,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
+import android.support.annotation.NonNull;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -29,7 +32,7 @@ import java.util.Locale;
 public class SimpleDialogProvider implements DialogProvider {
 
     @Override
-    public Dialog createNewVersionDialog(Context context, final NewVersionActionCallback callback) {
+    public Dialog createNewVersionDialog(@NonNull Context context, @NonNull Postcard postcard, final @NonNull NewVersionActionCallback callback) {
         DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -44,20 +47,24 @@ public class SimpleDialogProvider implements DialogProvider {
                         callback.update();
                         break;
                 }
-
             }
         };
-        return new AlertDialog.Builder(context)
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context)
                 .setTitle("版本更新")
-                .setMessage("有新版本啦~，是否更新?")
-                .setNegativeButton("取消", listener)
-                .setNeutralButton("稍后提醒", listener)
+                .setMessage(postcard.versionDesc)
                 .setPositiveButton("更新", listener)
-                .create();
+                .setCancelable(false);
+        if (!postcard.isForce) {
+            builder.setNegativeButton("取消", listener)
+                    .setNeutralButton("稍后提醒", listener);
+        }
+
+        return builder.create();
     }
 
     @Override
-    public Dialog createDownloadDialog(Context context) {
+    public Dialog createDownloadDialog(@NonNull Context context, @NonNull Postcard postcard) {
         return new DownloadDialog(context);
     }
 
@@ -68,22 +75,15 @@ public class SimpleDialogProvider implements DialogProvider {
         protected DownloadDialog(Context context) {
             super(context);
 
+            setCancelable(false);
+
             setTitle("下载进度");
 
-            LinearLayout container = new LinearLayout(context);
-            container.setOrientation(LinearLayout.VERTICAL);
-
-            progressBar = new ProgressBar(context);
-            progressBar.setProgressDrawable(context.getResources().getDrawable(android.R.drawable.progress_horizontal));
-            progressBar.setMinimumHeight(3);
-            progressBar.setMax(100);
-            container.addView(progressBar);
-
-            tvPercent = new TextView(context);
-            tvPercent.setText("0%");
-            container.addView(tvPercent);
-
+            View container = LayoutInflater.from(context).inflate(R.layout.dialog_version_update_download, null);
             setView(container);
+
+            progressBar = container.findViewById(R.id.progress_bar);
+            tvPercent = container.findViewById(R.id.tv_percent);
         }
 
         @Override
@@ -93,16 +93,16 @@ public class SimpleDialogProvider implements DialogProvider {
             } else {
                 progressBar.setProgress(0);
             }
-            tvPercent.setText("0%");
+            tvPercent.setText("0.0%");
         }
 
         @Override
         public void onProgressChanged(long current, long total) {
             double percent = ((double) current / (double) total);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                progressBar.setProgress((int) percent, true);
+                progressBar.setProgress((int) (percent * 100), true);
             } else {
-                progressBar.setProgress((int) percent);
+                progressBar.setProgress((int) (percent * 100));
             }
             tvPercent.setText(String.format(Locale.getDefault(), "%.1f", percent * 100) + "%");
         }
