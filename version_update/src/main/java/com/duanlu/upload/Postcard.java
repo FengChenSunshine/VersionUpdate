@@ -12,6 +12,9 @@ public class Postcard {
 
     public String downloadUrl;
     public boolean isForce;//是否强制更新.
+    public String versionCode;//版本号.
+    public String versionName;//版本名.
+    public String versionDesc;//新版本描述.
 
     public String saveDir;
     public String saveName;
@@ -23,6 +26,9 @@ public class Postcard {
     public static class Builder {
         private String downloadUrl;
         private boolean isForce;//是否强制更新.
+        private String versionCode;//版本号.
+        private String versionName;//版本名.
+        private String versionDesc;//新版本描述.
 
         private String saveDir;
         private String saveName;
@@ -42,10 +48,28 @@ public class Postcard {
             return this;
         }
 
+        public Builder setVersionCode(String versionCode) {
+            this.versionCode = versionCode;
+            return this;
+        }
+
+        public Builder setVersionName(String versionName) {
+            this.versionName = versionName;
+            return this;
+        }
+
+        public Builder setVersionDesc(String versionDesc) {
+            this.versionDesc = versionDesc;
+            return this;
+        }
+
         public Postcard build() {
             Postcard postcard = new Postcard();
             postcard.downloadUrl = this.downloadUrl;
             postcard.isForce = this.isForce;//是否强制更新.
+            postcard.versionCode = this.versionCode;
+            postcard.versionName = this.versionName;
+            postcard.versionDesc = this.versionDesc;
 
             postcard.saveDir = this.saveDir;
             postcard.saveName = this.saveName;
