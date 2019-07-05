@@ -36,7 +36,7 @@ class VersionUpdateUtils {
         }
         //API24 Android7.0以上需要添加权限.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         }
         intent.setDataAndType(contentUri, type);
         return intent;
