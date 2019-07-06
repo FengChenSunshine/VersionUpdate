@@ -202,17 +202,24 @@ Step 1. Add the JitPack repository to your build file,Add it in your root build.
 Step 2. Add the dependency
 
     dependencies {
-	          implementation 'com.github.FengChenSunshine:VersionUpdate:v1.0.3'
+	          implementation 'com.github.FengChenSunshine:VersionUpdate:v1.0.4'
 	  }
 	  
 ## 8.版本说明
  
-### v1.0.3 
+ ### v1.0.4
+   1.修复某些机型下载成功安装失败，或者安装成功之后没有显示系统安装成功结果界面，或者点击打开时回到桌面的Bug。
+   2.备注：安装时使用的一定要是addFlags方法而不是setFlags方法，这个很重要，很重要，很重要。
+ 
+### v1.0.3
    1.Postcard对象里增加版本号、版本名和版本描述信息。
    2.更新Demo。
    
-### v1.0.2 
+### v1.0.2
    1.创建Dialog接口参数里增加Postcard对象，这样方便在创建Dialog时根据不同条件创建不同内容的Dialog。
    
-### v1.0.1 
+### v1.0.1
    1.修改使用该库的2个APP不能同时安装的问题。
+   
+## 9.链接
+   1.[![](https://img.shields.io/badge/UiStatus-brightgreen.svg)](https://github.com/FengChenSunshine/UiStatus)是我的另一个开源库：一个简单且强大的Ui状态视图控制库！喜欢的可以看看，欢迎start！！！
